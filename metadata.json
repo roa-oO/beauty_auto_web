@@ -1,0 +1,6 @@
+{
+  "name": "주간 뷰티 트렌드 분석 자동화 대시보드",
+  "description": "올리브영, 컬리, 에이블리, 무신사 뷰티의 주간 인기 상품 분석을 자동화하여 핵심 성분, 피부 고민 태그, 트렌드 스코어를 분석하고 구글 시트 연동용 TSV 및 주간 마크다운 리포트를 제공하는 SaaS 분석 플랫폼",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
