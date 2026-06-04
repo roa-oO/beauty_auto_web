@@ -16,14 +16,6 @@ interface AnalysisFormProps {
   isLoading: boolean;
 }
 
-const WEEKS = [
-  '2026년 5월 4주차',
-  '2026년 5월 3주차',
-  '2026년 5월 2주차',
-  '2026년 5월 1주차',
-  '2026년 4월 4주차',
-];
-
 const PLATFORMS = ['전체', '올리브영', '컬리', '에이블리', '무신사 뷰티'];
 
 const CATEGORIES = [
@@ -38,19 +30,26 @@ const CATEGORIES = [
 
 const DEPTHS = ['간단 요약', '표준 분석', '상세 리포트'];
 
+function getCurrentWeekLabel() {
+  const kst = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Seoul' }));
+  const year = kst.getFullYear();
+  const month = kst.getMonth() + 1;
+  const weekOfMonth = Math.ceil(kst.getDate() / 7);
+
+  return `${year}년 ${month}월 ${weekOfMonth}주차`;
+}
+
 export default function AnalysisForm({ onAnalyze, isLoading }: AnalysisFormProps) {
-  const [week, setWeek] = useState('2026년 5월 4주차');
   const [platform, setPlatform] = useState('전체');
   const [category, setCategory] = useState('전체');
   const [depth, setDepth] = useState('표준 분석');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onAnalyze({ week, platform, category, depth });
+    onAnalyze({ week: getCurrentWeekLabel(), platform, category, depth });
   };
 
   const handleReset = () => {
-    setWeek('2026년 5월 4주차');
     setPlatform('전체');
     setCategory('전체');
     setDepth('표준 분석');
@@ -69,24 +68,7 @@ export default function AnalysisForm({ onAnalyze, isLoading }: AnalysisFormProps
         <h3 className="font-sans font-bold text-gray-800 text-base">분석 조건 및 타겟 조건 설정</h3>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        {/* 분석 주차 */}
-        <div className="flex flex-col gap-1.5">
-          <label className="font-sans font-bold text-xs text-gray-500">분석 대상 주차 *</label>
-          <select
-            id="select-week"
-            value={week}
-            onChange={(e) => setWeek(e.target.value)}
-            className="w-full text-sm font-sans font-semibold text-gray-750 bg-orange-50/20 border border-orange-100/50 rounded-2xl p-3 outline-none focus:bg-white focus:border-[#f46f30] focus:ring-2 focus:ring-orange-100 transition-all cursor-pointer"
-          >
-            {WEEKS.map((w) => (
-              <option key={w} value={w}>
-                {w}
-              </option>
-            ))}
-          </select>
-        </div>
-
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {/* 분석 플랫폼 */}
         <div className="flex flex-col gap-1.5">
           <label className="font-sans font-bold text-xs text-gray-500">분석 플랫폼 *</label>

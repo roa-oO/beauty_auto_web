@@ -15,6 +15,15 @@ import LandingPage from './components/LandingPage';
 import ApiKeyModal from './components/ApiKeyModal';
 import { analyzeBeautyTrends } from './lib/gemini';
 
+function getCurrentWeekLabel() {
+  const kst = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Seoul' }));
+  const year = kst.getFullYear();
+  const month = kst.getMonth() + 1;
+  const weekOfMonth = Math.ceil(kst.getDate() / 7);
+
+  return `${year}년 ${month}월 ${weekOfMonth}주차`;
+}
+
 export default function App() {
   const [activeView, setActiveView] = useState<'landing' | 'dashboard'>('landing');
   const [analysisData, setAnalysisData] = useState<AnalysisResponse | null>(null);
@@ -60,7 +69,7 @@ export default function App() {
   useEffect(() => {
     if (isUnlocked) {
       handleAnalyze({
-        week: '2026년 5월 4주차',
+        week: getCurrentWeekLabel(),
         platform: '전체',
         category: '전체',
         depth: '표준 분석',
@@ -135,7 +144,7 @@ export default function App() {
               // 진입 시 자동 분석된 데이터가 없으면 다시 기동
               if (!analysisData && !isLoading) {
                 handleAnalyze({
-                  week: '2026년 5월 4주차',
+                  week: getCurrentWeekLabel(),
                   platform: '전체',
                   category: '전체',
                   depth: '표준 분석',
